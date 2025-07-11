@@ -10,5 +10,5 @@ apps:
         - owner: jmscslgroup
           repo: can_to_ros
           branch_or_hash: fall2023_honda_test
-        - owner: AlexOSAdventurer
+        - owner: jmscslgroup
           repo: vector2025_1
