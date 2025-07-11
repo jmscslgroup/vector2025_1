@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+	<arg name="description" default="vector2025_1"/>
+
+	<arg name="margin" default="30.0"/>
+	<arg name="use_margin" default="false"/>
+	<arg name="hwil" default="true"/>
+	<arg name="readonly" default="false"/>
+	<arg name="vsl_hwil_test" default="false"/>
+
+
+	<node pkg="can_to_ros" type="vehicle_interface" name="vehicle_interface" output="screen" respawn="true" respawn_delay="2" />
+	<node pkg="can_to_ros" type ="subs" name="subs" output="screen" if="$(arg hwil)" />
+	<include file="$(find can_to_ros)launch/safety_checks.launch" />
+
+	<node pkg="can_to_ros" type ="rosbag_record.sh" name="bashscript2" output="screen" args="$(arg description) $(arg hwil)" />
+	<node pkg="vector2025_1" type ="live_tracker.py" name="tracker" output="screen" if="$(arg hwil)">
+		<remap to="/car/gps/fix" from="/gps_fix" />
+		<remap to="/car/gps/fix_time" from="/gps_fix_time" />
+	</node>
+</launch>
